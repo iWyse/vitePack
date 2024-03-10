@@ -1,0 +1,53 @@
+@use "sass:math";
+
+$white: #fff;
+$black: #000;
+$error: #eb4d4b;
+$calm: #27ae60;
+
+$height: calc(var(--vh, 1vh) * 100);
+
+$fontFamily: "Young";
+$fontSize: 14px;
+$mainColor: $calm;
+$bgColor: #242424;
+// общие параметры
+body {
+    font-family: $fontFamily, sans-serif;
+    color: $mainColor;
+    color-scheme: light dark;
+    background-color: $bgColor;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
+    // Скролл заблокирован
+    .lock & {
+        overflow: hidden;
+        touch-action: none;
+    }
+    // Сайт загружен
+    .loaded & {
+    }
+}
+.wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    flex: 1 1 auto;
+    // Прижимаем footer
+    > main {
+        flex: 1 1 auto;
+    }
+    // Фикс для слайдеров
+    > * {
+        min-width: 0;
+    }
+}
+
+@import "./base/base.scss";
+@import "./components/components.scss";
+@import "./layout/layout.scss";
+@import "./pages/building.scss";

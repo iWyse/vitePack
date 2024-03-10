@@ -1,0 +1,329 @@
+@mixin adaptiveValue($property, $startSize, $minSize, $type: 1) {
+    $addSize: $startSize - $minSize;
+    @if $type==1 {
+        #{$property}: $startSize + px;
+        @media screen and (max-width: #{$maxWidthContainer + px}) {
+            #{$property}: calc(#{$minSize + px} + #{$addSize} * ((100vw - 320px) / #{$maxWidthContainer - 320}));
+        }
+    }
+}
+
+@mixin adaptiv-text-rem($property, $startSize, $minSize, $type) {
+    $addSize: $startSize - $minSize;
+    @if $type==1 {
+        #{$property}: $startSize + rem;
+        @media screen and (max-width: #{$maxWidthContainer + px}) {
+            #{$property}: calc(#{$minSize + rem} + #{$addSize} * ((100vw - 320px) / #{$maxWidthContainer - 320}));
+        }
+    }
+}
+
+@mixin customScroll($color-line, $color-thumb) {
+    &::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background-color: $color-line;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: $color-thumb;
+    }
+
+    scrollbar-color: $color-thumb $color-line;
+    scrollbar-width: thin;
+}
+
+//------------------ Image
+@mixin imgAdaptive($width, $width-max, $padding, $fit) {
+    position: relative;
+
+    width: #{$width};
+    max-width: #{$width-max};
+    height: max-content;
+
+    &::before {
+        content: "";
+        display: block;
+        width: 100%;
+        padding-bottom: #{$padding + "%"};
+    }
+
+    & img,
+    & svg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+
+        width: 100%;
+        height: 100%;
+
+        object-fit: $fit;
+    }
+}
+
+@function percent($px, $from) {
+    $result: math.div($px, $from) * 100%;
+    @return $result;
+}
+//REM
+// @function rem($px) {
+//     $result: math.div($px, 16) + rem;
+//     @return $result;
+// }
+// //EM
+// @function em($px, $current: 16) {
+//     $result: math.div($px, $current) + em;
+//     @return $result;
+// }
+
+//------------------ Media
+@mixin _1700 {
+    @media screen and (max-width: 1700px) {
+        @content;
+    }
+}
+@mixin _1500 {
+    @media screen and (max-width: 1500px) {
+        @content;
+    }
+}
+@mixin _1366 {
+    @media screen and (max-width: 1366px) {
+        @content;
+    }
+}
+@mixin _1250 {
+    @media screen and (max-width: 1250px) {
+        @content;
+    }
+}
+@mixin _1170 {
+    @media screen and (max-width: 1170px) {
+        @content;
+    }
+}
+@mixin _1024 {
+    @media screen and (max-width: 1024px) {
+        @content;
+    }
+}
+@mixin _979 {
+    @media screen and (max-width: 979px) {
+        @content;
+    }
+}
+@mixin _850 {
+    @media screen and (max-width: 850px) {
+        @content;
+    }
+}
+@mixin _768 {
+    @media screen and (max-width: 768px) {
+        @content;
+    }
+}
+@mixin _600 {
+    @media screen and (max-width: 600px) {
+        @content;
+    }
+}
+@mixin _480 {
+    @media screen and (max-width: 480px) {
+        @content;
+    }
+}
+@mixin _350 {
+    @media screen and (max-width: 350px) {
+        @content;
+    }
+}
+
+//Подключение шрифта
+
+//Percent
+//Подключение шрифта
+// @mixin font($font_name, $file_name, $weight, $style) {
+//     @font-face {
+//         font-family: $font_name;
+//         font-display: swap;
+//         src: url("../fonts/#{$file_name}.woff2") format("woff2"), url("../fonts/#{$file_name}.woff") format("woff");
+//         font-weight: #{$weight};
+//         font-style: #{$style};
+//     }
+// }
+// //Percent
+
+// //Адаптивное свойство
+
+// //Currency
+// @mixin currency($sym) {
+//     &::after {
+//         content: "#{$sym}";
+//     }
+// }
+
+// // Grids
+// @mixin gridCards($type: fit, $min: 280px, $max: 1fr, $gap: 30px) {
+//     display: grid;
+//     gap: $gap;
+//     grid-template-columns: repeat(auto-#{$type}, minmax($min, $max));
+// }
+
+// // Адаптивное свойство (clamp)
+// @mixin adaptiveValue($property, $startSize, $minSize, $widthFrom: $containerWidth, $widthTo: $minWidth, $keepSize: 0) {
+//     @if ($startSize==0) {
+//         $startSize: 0.000001;
+//     }
+//     @if ($minSize==0) {
+//         $minSize: 0.000001;
+//     }
+
+//     // Для calc();
+//     $addSize: math.div($startSize - $minSize, 16);
+
+//     @if ($widthFrom == $containerWidth and $maxWidthContainer == 0) {
+//         $widthFrom: $maxWidth;
+//     }
+
+//     // Брейк-поинты в EM
+//     $widthFromMedia: em($widthFrom);
+//     $widthToMedia: em($widthTo);
+
+//     // Формула плавающего значения
+//     // Источник: https://css-tricks.com/linearly-scale-font-size-with-css-clamp-based-on-the-viewport/
+//     $slope: math.div(($startSize - $minSize), ($widthFrom - $widthTo));
+//     $yIntersection: -$widthTo * $slope + $minSize;
+//     @if ($yIntersection==0) {
+//         $yIntersection: 0.000001;
+//     }
+//     $flyValue: #{rem($yIntersection)}" + " #{$slope * 100}vw;
+
+//     // Получение значения свойства
+//     $propertyValue: #{"clamp(" rem($minSize) "," $flyValue "," rem($startSize) ")"};
+//     // Если отрицательные значения
+//     @if ($minSize > $startSize) {
+//         $propertyValue: #{"clamp(" rem($startSize) "," $flyValue "," rem($minSize) ")"};
+//     }
+
+//     // Если поддерживается clamp();
+//     @supports (#{$property}: $propertyValue) {
+//         #{$property}: $propertyValue;
+//     }
+//     // Если не поддерживается clamp();
+//     @supports not (#{$property}: $propertyValue) {
+//         #{$property}: calc(#{rem($minSize)} + #{$addSize} * (100vw - #{rem($widthTo)}) / #{math.div($widthFrom, 16) - math.div($widthTo, 16)});
+//     }
+
+//     // Устанавливаем значения по умолчанию
+//     @if $widthFrom != $containerWidth and $widthFrom != $maxWidth and $keepSize != 1 and $keepSize != 2 {
+//         @media (min-width: $widthFromMedia) {
+//             #{$property}: inherit;
+//         }
+//     }
+//     @if $widthTo != $minWidth and $keepSize != 1 and $keepSize != 3 {
+//         @media (max-width: $widthToMedia) {
+//             #{$property}: inherit;
+//         }
+//     }
+// }
+
+// flex = center / center
+%fcc {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+// flex =  space-between / center
+%fbc {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+// flex =  space-around / center
+%fac {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+// Счетчик для списка
+%listCounter {
+    list-style-type: none;
+    counter-reset: item;
+    li {
+        position: relative;
+        &:before {
+            counter-increment: item;
+            content: counter(item);
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+    }
+}
+// Адаптивное видео
+%responsiveVideo {
+    position: relative;
+    overflow: hidden;
+    height: 0;
+    padding-bottom: 56.25%;
+    video,
+    iframe,
+    object,
+    embed {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+}
+// Видео в качестве фона
+%videoBackground {
+    video,
+    iframe,
+    object,
+    embed {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        min-width: 100%;
+        min-height: 100%;
+        width: auto;
+        height: auto;
+        z-index: -100;
+        transform: translateX(-50%) translateY(-50%);
+        background-size: cover;
+    }
+}
+// Серый фильтр
+%grayfilter {
+    transition: all 0.3s ease 0s;
+    filter: grayscale(1);
+    @media (any-hover: hover) {
+        &:hover {
+            filter: grayscale(0);
+        }
+    }
+}
+// Отменить выделение
+%noselect {
+    user-select: none;
+}
+// Зеркальное отображение
+%mirror {
+    transform: scale(-1, 1);
+}
+// Плавный скролл
+%smoothscroll {
+    -webkit-overflow-scrolling: touch;
+}
+// Скрыть скролл
+%hidescroll {
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
